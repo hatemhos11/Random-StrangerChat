@@ -1,0 +1,247 @@
+:root{
+  --success-color: #007bff;
+  transition: .3s;
+}
+*{
+  box-sizing: border-box;
+  margin:0;
+  padding: 0
+}
+body::after{
+  content: "ksldjflkdsjflak";
+  position: absolute;z-index: -1;
+}
+body{
+  position: relative;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: url('../images/mobile-background.jpg') ;
+  background-size: cover;
+
+}
+/* ================= */
+/* HEADER ========== */
+.headerChat{
+  position:fixed;
+  top:0;left: 0;right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 10vh;
+  box-shadow: 0 1px 5px -1px black;
+  overflow: hidden;
+  border-radius: 0 0 18px 18px;
+}
+.L-F-btns{
+  height: 100%;
+  width:15%;
+  user-select: none;
+  border: none;
+  outline: none;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: .3s ease-in-out;
+  color: black;
+}
+
+#leaveBtn:disabled{
+  opacity: .5;
+  cursor: auto;
+}
+
+#leaveBtn{
+  color: #fff;
+  background-color: #dc3545;
+  border-radius: 10px 0 0 0;
+}
+.leaveSvg{
+  fill: white;
+}
+#findStr{
+  color: #fff;
+  background-color: var(--success-color);
+  border-color: var(--success-color);
+  border-radius: 0 10px 0 0;
+}
+#findStr:disabled{
+  opacity: .5;
+  cursor: auto;
+}
+
+.logo{
+  width: 200px;
+  overflow: hidden;
+}
+.logo img{
+  transform: scale(1);
+}
+
+
+/* ================= */
+/* STATUS ========== */
+#status {
+  width: fit-content;
+  margin: auto;
+  margin-top: 10px;  
+}
+.status-message{
+  border-radius: 12px;
+  padding: 8px 13px;
+  background: rgba(255, 0, 0, 0.494);
+}
+.status-message.success{
+  color: #fff;
+  background-color: #28a745;
+  border-color: #28a745;
+}
+.status-message.muted{
+  color: #fff;
+  background-color: #8b9095;
+  border-color: #4e555b;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.loader {
+  color:#343a40!important;
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  vertical-align: text-bottom;
+  background-color: currentColor;
+  border-radius: 50%;
+  opacity: 0;
+  -webkit-animation: spinner-grow .75s linear infinite;
+  animation: spinner-grow .75s linear infinite;
+}
+
+@-webkit-keyframes spinner-grow {
+}
+@keyframes spinner-grow {
+  0%{
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  }
+  50%{
+    opacity: 1;}
+}
+.muteMsg{
+  margin-right:7px ;
+}
+
+#alerts{
+  position: relative;
+  flex-direction: column;
+  max-height: 80vh;
+  margin-top: 10vh;
+  display: flex;
+  overflow: hidden;
+}
+ul{
+  width: 100%;
+  list-style: none;
+  scroll-behavior: smooth;
+  margin-left: 5px;
+  overflow-y: auto;
+  scrollbar-width: 20px;
+}
+.msg{
+  padding: 10px 10px;
+  min-width: 150px;
+  width: fit-content;
+  max-width: 300px;
+  margin: 10px 10px;
+  overflow-wrap: break-word;
+  border-radius: 2px 15px 15px 12px;
+}
+.me{
+  background: var(--success-color);
+  color: #F0F1F5;
+  
+}
+.me::selection{
+  background:#343a40
+}
+.he{
+  background: #e6e6e6;
+  color: var(--success-color);
+}
+
+
+/* ================= */
+/* FORM ========== */
+.con {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  width: 100%;
+}
+#msgInp{
+  height: 15vh;
+  max-height: max-content;
+  flex: 9;
+  outline: none;
+  border: .4px solid ;
+  resize: none;
+  padding: 9px;
+  background: #f0f0f0d3;
+  border-radius: 9px 0 0 0;
+  transition: .5s ease-in-out;
+}
+#msgInp:disabled{
+  background: #f0f0f08a;
+}
+#msgInp:focus{
+  border-color: var(--success-color);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px var(--success-color);
+  outline: 0 none;
+  background: white;
+}
+#msgInp::placeholder{
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 20px;
+  color: #343a40;
+}
+.form{
+  display: flex;
+}
+#sendMsg{
+  background: #b7babd;
+  outline: none;
+  border:none;
+  flex: 1;
+  cursor: pointer;
+  transition: .3s;
+}
+#sendMsg:hover{
+  opacity: .7;
+}
+.svgSend{
+  fill:var(--success-color);
+  width:40px;
+  height:40px;
+}
+/* ==================== media queries ================== */
+@media(max-width: 1000px){
+  body{
+    background:  url('../images/mobile-background.jpg') ;
+    background-size: cover;
+  }
+  .svgSend{width: 20px;height: 20px;}
+  
+}
+@media(max-width: 700px){
+  #sendMsg{
+    flex: 2;
+  }
+  .L-F-btns{
+    width:22%;
+  }
+  .he{
+    margin-left: auto;
+    border-radius: 15px 2px 12px 15px;
+  }
+}
