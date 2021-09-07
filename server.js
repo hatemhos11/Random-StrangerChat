@@ -1,5 +1,6 @@
 const express = require("express")
 const { v4: uuidv4 } = require('uuid');
+const port = process.env.PORT || 80
 const path = require('path')
 const app = express();
 const server = require('http').createServer(app)
@@ -81,4 +82,4 @@ app.get("/chat", (req,res) => {
 })
 
 
-server.listen(80, () => console.log('server is connect'))
+server.listen(port, () => console.log('server is connect'))
