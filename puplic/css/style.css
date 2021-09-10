@@ -7,19 +7,14 @@
   margin:0;
   padding: 0
 }
-body::after{
-  content: "ksldjflkdsjflak";
-  position: absolute;z-index: -1;
-}
 body{
-  position: relative;
-  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: url('../images/mobile-background.jpg') ;
+  height: 100vh;
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.159)), url('../images/desktop-background.jpg') ;
   background-size: cover;
-
+  font-family: 'Ubuntu', sans-serif;
 }
 /* ================= */
 /* HEADER ========== */
@@ -30,9 +25,12 @@ body{
   justify-content: space-between;
   align-items: center;
   height: 10vh;
-  box-shadow: 0 1px 5px -1px black;
+  box-shadow: 0 1px 7px -1px black;
+  /* background: #003889; */
+  background-image: linear-gradient(to bottom, #0039898a, rgba(13, 20, 220, 0.1));
   overflow: hidden;
   border-radius: 0 0 18px 18px;
+  z-index: 999;
 }
 .L-F-btns{
   height: 100%;
@@ -46,6 +44,9 @@ body{
   transition: .3s ease-in-out;
   color: black;
 }
+.L-F-btns:hover{
+  opacity: .9;
+}
 
 #leaveBtn:disabled{
   opacity: .5;
@@ -54,7 +55,7 @@ body{
 
 #leaveBtn{
   color: #fff;
-  background-color: #dc3545;
+  background: linear-gradient(39deg, #dc3545, #942525);
   border-radius: 10px 0 0 0;
 }
 .leaveSvg{
@@ -62,34 +63,43 @@ body{
 }
 #findStr{
   color: #fff;
-  background-color: var(--success-color);
+  background: linear-gradient(39deg, var(--success-color),#383cd1 );
   border-color: var(--success-color);
   border-radius: 0 10px 0 0;
+  transition: .3s ease-in-out;
 }
+
 #findStr:disabled{
   opacity: .5;
   cursor: auto;
 }
-
+a{
+  text-decoration: none;
+}
 .logo{
-  width: 200px;
-  overflow: hidden;
+  color: tomato;
+  text-shadow:3px 3px 20px #ef1313;
+  font-size: 50px;
+  user-select: none;
+
 }
-.logo img{
-  transform: scale(1);
-}
+
 
 
 /* ================= */
 /* STATUS ========== */
 #status {
+  position: absolute;
+  top: 0;
   width: fit-content;
-  margin: auto;
   margin-top: 10px;  
+  width: 100%;
 }
 .status-message{
+  width: fit-content;
+  margin: auto;
   border-radius: 12px;
-  padding: 8px 13px;
+  padding: 2px 8px;
   background: rgba(255, 0, 0, 0.494);
 }
 .status-message.success{
@@ -134,10 +144,11 @@ body{
 
 #alerts{
   position: relative;
+  top: 10vh;
+  display: flex;
   flex-direction: column;
   max-height: 80vh;
-  margin-top: 10vh;
-  display: flex;
+  flex: 1;
   overflow: hidden;
 }
 ul{
@@ -145,28 +156,30 @@ ul{
   list-style: none;
   scroll-behavior: smooth;
   margin-left: 5px;
+  margin-top: 40px;
+  flex:1;
   overflow-y: auto;
   scrollbar-width: 20px;
 }
 .msg{
-  padding: 10px 10px;
+  padding: 7px;
   min-width: 150px;
   width: fit-content;
   max-width: 300px;
   margin: 10px 10px;
   overflow-wrap: break-word;
+  box-shadow: -1px 2px 3px -1px black;
   border-radius: 2px 15px 15px 12px;
 }
 .me{
-  background: var(--success-color);
+  background: linear-gradient(274deg, #2574d5, var(--success-color));
   color: #F0F1F5;
-  
 }
 .me::selection{
   background:#343a40
 }
 .he{
-  background: #e6e6e6;
+  background: linear-gradient(45deg, #e9f3ff, #d1d1d1a1);
   color: var(--success-color);
 }
 
@@ -180,7 +193,7 @@ ul{
   width: 100%;
 }
 #msgInp{
-  height: 15vh;
+  height: 10vh;
   max-height: max-content;
   flex: 9;
   outline: none;
@@ -188,7 +201,7 @@ ul{
   resize: none;
   padding: 9px;
   background: #f0f0f0d3;
-  border-radius: 9px 0 0 0;
+  border-radius: 15px 0 0 0;
   transition: .5s ease-in-out;
 }
 #msgInp:disabled{
@@ -217,7 +230,9 @@ ul{
   transition: .3s;
 }
 #sendMsg:hover{
-  opacity: .7;
+  box-shadow: 17px 17px 39px -14px rgba(0,0,0,0.37) inset;
+  -webkit-box-shadow: 17px 17px 39px -14px rgba(0,0,0,0.37) inset;
+  -moz-box-shadow: 17px 17px 39px -14px rgba(0,0,0,0.37) inset;
 }
 .svgSend{
   fill:var(--success-color);
@@ -227,7 +242,6 @@ ul{
 /* ==================== media queries ================== */
 @media(max-width: 1000px){
   body{
-    background:  url('../images/mobile-background.jpg') ;
     background-size: cover;
   }
   .svgSend{width: 20px;height: 20px;}

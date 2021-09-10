@@ -4,18 +4,28 @@ let SendBtn = document.getElementById('sendMsg')
 let findBtn = document.getElementById('findStr')
 let leaveBtn = document.getElementById('leaveBtn')
 let msgContainer = document.getElementById('msgContainer')
+disableForm(true,false,true)
 let mode = 'leave'; // three modes [waitMode , leave, chatting]
 
 
 let socket = io();
 socket.on('connect', () => {
   console.log("new user is connected - Client -")
-  disableForm(true, true,false,true)
+  setTimeout(() => {
+    findBtn.addEventListener('click', ()=>{
+      if(mode === 'leave'){
+        status.innerHTML = `<div class="status-message muted"><div class="muteMsg">Please wait...connecting you to stranger</div><div class="loader"></div></div>`
+          msgContainer.innerHTML = "";
+          socket.emit('findStr');
+      }else{
+        return undefined
+      }
+    })
+  }, 1500);
 })
 
 // function to disable buttuns
-function disableForm(inpBol,sendBol,FindBol, LeaveBol){
-  inputMsg.disabled = inpBol
+function disableForm(sendBol,FindBol, LeaveBol){
   SendBtn.disabled = sendBol
   findBtn.disabled = FindBol
   leaveBtn.disabled = LeaveBol
@@ -26,26 +36,19 @@ function disableForm(inpBol,sendBol,FindBol, LeaveBol){
 socket.on('canWriteNow', (data)=>{
   if(data.message === 'Please wait...connecting you to stranger'){
     status.innerHTML = `<div class="status-message muted"><div class="muteMsg">${data.message}</div><div class="loader"></div></div>`
-    disableForm(true , true, true, true)
+    disableForm(true, true, true)
     mode = 'waitMode'
   }
   socket.on('toast', data =>{
     status.innerHTML = `<div class="status-message success">${data.message}</div>`
-    disableForm(false, false , true, false)
+    disableForm(false , true, false)
     inputMsg.focus();
     mode = 'chatting'
   })
 })
 
 // ==================== Find Stranger =================
-findBtn.addEventListener('click', ()=>{
-  if(mode === 'leave'){
-    msgContainer.innerHTML = "";
-    socket.emit('findStr');
-  }else{
-    return undefined
-  }
-})
+
 
 
 
@@ -99,7 +102,7 @@ function scrollChat(){
 
 leaveBtn.addEventListener('click', ()=>{
   if(mode === 'chatting'){
-    socket.emit('leaveRoom')
+    socket.emit('leave')
     mode = 'leave'
   }else{
     return undefined
@@ -108,8 +111,7 @@ leaveBtn.addEventListener('click', ()=>{
 
 socket.on('leave',(data)=>{
   status.innerHTML = `<div class="status-message">${data.message}</div>`;
-  disableForm(true,true,false, true)
+  disableForm(true,false, true)
   mode = 'leave'
 })
-
 

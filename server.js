@@ -15,45 +15,43 @@ io.on('connection', socket =>{
   let windowID = socket.id
 
   socket.on('findStr', ()=>{
-    availableUsers.push(socket)
-    let unfilledRooms = rooms.filter((room) => {
-      if (!room.isFilled) {
-        return room;
+      availableUsers.push(socket)
+      let unfilledRooms = rooms.filter((room) => {
+        if (!room.isFilled) {
+          return room;
+        }
+      });
+      try {
+        // join the existing room.
+          socket.join(unfilledRooms[0].roomID);
+          let index = rooms.indexOf(unfilledRooms[0]);
+          rooms[index].isFilled = true;
+          unfilledRooms[0].isFilled = true;
+          socket.emit('canWriteNow', { 'message':"You are Added to privateRoom" } );
+          socket.roomID = unfilledRooms[0].roomID;
+          io.sockets.in(socket.roomID).emit('toast', { "message": "You are connected with a stranger!"});
+          index = availableUsers.indexOf(socket)
+          availableUsers.splice(index, 1)
+      }catch(e) {
+        // dont have unfilled rooms. Thus creating a new user.
+        let uID = uuidv4()
+        rooms.push({ "roomID": uID, "isFilled": false });
+        socket.join(uID);
+        socket.roomID = uID;
+        socket.emit('canWriteNow', {'message':"Please wait...connecting you to stranger"} );
       }
-    });
-    try {
-      // join the existing room.
-
-      socket.join(unfilledRooms[0].roomID);
-      let index = rooms.indexOf(unfilledRooms[0]);
-      rooms[index].isFilled = true;
-      unfilledRooms[0].isFilled = true;
-      socket.emit('canWriteNow', { 'message':"You are Added to privateRoom" } );
-      socket.roomID = unfilledRooms[0].roomID;
-      io.sockets.in(socket.roomID).emit('toast', { "message": "You are connected with a stranger!"});
-      index = availableUsers.indexOf(socket)
-      availableUsers.splice(index, 1)
-    }catch(e) {
-      // dont have unfilled rooms. Thus creating a new user.
-      let uID = uuidv4()
-      rooms.push({ "roomID": uID, "isFilled": false });
-      socket.join(uID);
-      socket.roomID = uID;
-      socket.emit('canWriteNow', {'message':"Please wait...connecting you to stranger"} );
-    }
   })
   socket.on('toServerMsg', (data)=>{
     io.to(socket.roomID).emit('viewMsg', data, windowID)
   });
 
 
-
   // when user click on leave button 
-  socket.on('leaveRoom', ()=>{
-    let test = rooms.findIndex(x => x.roomID === socket.roomID);
-    rooms.splice(test, 1)
-    io.sockets.in(socket.roomID).emit('leave', {'message':"User is disconnect"} );
-    // io.sockets.in(rooms[test].roomID)
+    socket.on('leave', ()=>{
+    roomIndex = rooms.findIndex(x => x.roomID === socket.roomID);
+
+    rooms.splice(roomIndex, 1)
+      io.sockets.in(socket.roomID).emit('leave', {'message':"User is disconnect"} );
   })
 
 
@@ -66,8 +64,8 @@ io.on('connection', socket =>{
     }
     disconnect(availableUsers)
     disconnect(onlineUsers)
-    let roomIndex = rooms.findIndex(x => x.roomID === socket.roomID);
-    socket.to(socket.roomID).emit('leave', {'message':"User is disconnect"} );
+    roomIndex = rooms.findIndex(x => x.roomID === socket.roomID);
+    io.sockets.in(socket.roomID).emit('leave', {'message':"User is disconnect"} );
     rooms.splice(roomIndex, 1)
   });
   })
